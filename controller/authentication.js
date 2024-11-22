@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken'
 import bcrypt from "bcryptjs"
 const createToken = async (user) => {
     try {
-
         const token = jwt.sign(
             { id: user._id, email: user.email },
             process.env.JWT_SECRET,
