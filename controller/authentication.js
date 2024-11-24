@@ -48,9 +48,10 @@ export const signup = async (req, res) => {
       // Set token in cookies
       res.cookie("token", token, {
         httpOnly: true,
-        secure: true,
-        maxAge: 3600 * 1000,
-      });
+        secure: true, // Requires HTTPS
+        sameSite: "none", // Allows cross-origin requests
+        maxAge: 3600 * 1000, // 1 hour
+    });
   
       return res.status(201).json({ message: "User created successfully", token });
     } catch (error) {
@@ -79,8 +80,9 @@ export const login = async (req , res ) => {
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: true,
-            maxAge: 3600 * 1000
+            secure: true, // Requires HTTPS
+            sameSite: "none", // Allows cross-origin requests
+            maxAge: 3600 * 1000, // 1 hour
         });
 
         res.status(200).json({ message: "Login successful", token });
@@ -93,10 +95,11 @@ export const login = async (req , res ) => {
 
 export const logout = async (req , res ) => {
     try {
-        res.cookie("token", "", {
+        res.cookie("token", token, {
             httpOnly: true,
-            secure: true,
-            expires: new Date(0)
+            secure: true, // Requires HTTPS
+            sameSite: "none", // Allows cross-origin requests
+            maxAge: 3600 * 1000, // 1 hour
         });
         return res.status(200).json({ message: "Logged out successfully" });
     } catch (error) {
