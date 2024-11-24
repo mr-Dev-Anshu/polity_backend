@@ -22,6 +22,10 @@ const  schema = mongoose.Schema({
      userId:{
          type:mongoose.Schema.Types.ObjectId , 
          ref: 'User'
+     }, 
+     isDown:{
+         type:Boolean , 
+         default:false 
      }
 }) ; 
 

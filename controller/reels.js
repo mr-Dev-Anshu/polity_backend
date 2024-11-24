@@ -25,14 +25,12 @@ export const createReel = async (req, res) => {
 export const deleteReelById = async (req, res) => {
   try {
     const id  = req.query.id;
-
     // Find and delete the reel
     const reel = await Reels.findByIdAndDelete(id);
 
     if (!reel) {
       return res.status(404).json({ message: "Reel not found" });
     }
-
     res.status(200).json({ message: "Reel deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error deleting reel", error: error.message });
@@ -61,8 +59,7 @@ export const updateReelById = async (req, res) => {
 // Get all reels
 export const getAllReels = async (req, res) => {
   try {
-    const reels = await Reels.find();
-
+    const reels = await Reels.find({isDown:false});
     res.status(200).json({ message: "Reels retrieved successfully", reels });
   } catch (error) {
     res.status(500).json({ message: "Error retrieving reels", error: error.message });
@@ -73,14 +70,12 @@ export const getAllReels = async (req, res) => {
 export const getReelsByUserId = async (req, res) => {
   try {
     const userId = req.query.userId;
-
     // Find reels by user ID
-    const reels = await Reels.find({ userId });
+    const reels = await Reels.find({ userId , isDown:false  });
 
     if (!reels.length) {
       return res.status(404).json({ message: "No reels found for this user" });
     }
-
     res.status(200).json({ message: "Reels retrieved successfully", reels });
   } catch (error) {
     res.status(500).json({ message: "Error retrieving reels", error: error.message });

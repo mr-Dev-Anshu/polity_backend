@@ -5,7 +5,10 @@ import userRouter from './router/user.js';
 import cookieParser from 'cookie-parser';
 import reelsRouter from './router/reels.js';
 import followRouter from './router/follow.js';
+import reportRouter from './router/report.js';
 const app = express();
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(cookieParser());
 const corsOptions = {
@@ -15,7 +18,6 @@ const corsOptions = {
 dotenv.config({
   path: "./.env",
 });
-app.use(cors(corsOptions));
 
 // app.get("/" , verifyToken ,  async (req , res)=> {
 //       const data = await  readData('count' , 'value') ; 
@@ -37,4 +39,6 @@ app.use(cors(corsOptions));
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reels', reelsRouter);
 app.use('/api/v1/follow', followRouter);
+app.use('/api/v1/report', reportRouter);
+
 export { app };
