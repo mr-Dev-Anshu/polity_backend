@@ -26,7 +26,7 @@ export const signup = async (req, res) => {
   
       const existingUser = await User.findOne({ email });
       if (existingUser) {
-        return res.status(403).json({ message: "User already exists" });
+        return res.status(400).json({ message: "User already exists" });
       }
   
       // Hash the password
@@ -103,6 +103,22 @@ export const logout = async (req , res ) => {
         return res.status(500).json("Error while log out ", error)
     }
 }
+
+
+export const getCurrentUser = async (req, res) => {
+    try {
+        if (!req.user) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+        return res.status(200).json(req.user);
+    } catch (error) {
+        console.log("Error while getting the current user:", error);
+        return res.status(500).json({ message: "Error while getting the current user" });
+    }
+};
+
+
+
 
 
 
