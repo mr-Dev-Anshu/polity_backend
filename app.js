@@ -7,7 +7,7 @@ import reelsRouter from './router/reels.js';
 import followRouter from './router/follow.js';
 import reportRouter from './router/report.js';
 const app = express();
-app.use(cors({ origin: ['http://localhost:3000', 'https://your-frontend-domain.com'], credentials: true }));
+app.use(cors({ origin: ['http://localhost:3000', 'https://poltic.vercel.app'], credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 dotenv.config({

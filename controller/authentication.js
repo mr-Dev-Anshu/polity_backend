@@ -16,10 +16,8 @@ const createToken = async (user) => {
 export const signup = async (req, res) => {
     try {
       const { firstName, lastName, email, country, password } = req.body;
-
-
       console.log(firstName, lastName, email, country, password );
-  
+
       if (!firstName || !lastName || !email || !country || !password) {
         return res.status(400).json({ message: "All fields are required." });
       }
