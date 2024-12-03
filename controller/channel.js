@@ -1,0 +1,61 @@
+import Channel from "../model/channel.js";
+
+export const createChannel = async (req, res) => {
+    const { name, niche, language, email } = req.body;
+    try {
+        const existingChannel = await Channel.findOne({ email });
+        if (existingChannel) {
+            return res.status(400).json({ message: "A channel with this email already exists." });
+        }
+
+        const newChannel = new Channel({ name, niche, language, email });
+        await newChannel.save();
+        res.status(201).json(newChannel);
+    } catch (error) {
+        res.status(500).json({ message: error?.message });
+    }
+};
+
+export const getChannels = async (req, res) => {
+    try {
+        const channels = await Channel.find();
+        res.status(200).json(channels);
+    } catch (error) {
+        res.status(500).json({ message: error?.message });
+    }
+};
+
+export const getChannelByEmail = async (req, res) => {
+    const email = req.query.email
+    try {
+        const channel = await Channel.findById(email);
+        if (!channel) {
+            return res.status(404).json({ message: "Channel not found" });
+        }
+        res.status(200).json(channel);
+    } catch (error) {
+        res.status(500).json({ message: error?.message });
+    }
+};
+
+export const updateChannel = async (req, res) => {
+    const id = req.query.id
+    const { name, niche, language, email } = req.body;
+    try {
+        const existingChannel = await Channel.findOne({ email });
+        if (existingChannel && existingChannel._id.toString() !== id) {
+            return res.status(400).json({ message: "A channel with this email already exists." });
+        }
+        const updatedChannel = await Channel.findByIdAndUpdate(
+            id,
+            { name, niche, language, email },
+            { new: true }
+        );
+        if (!updatedChannel) {
+            return res.status(404).json({ message: "Channel not found" });
+        }
+        res.status(200).json(updatedChannel);
+    } catch (error) {
+        res.status(500).json({ message: error?.message });
+    }
+};

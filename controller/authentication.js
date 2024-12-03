@@ -103,9 +103,7 @@ export const logout = async (req, res) => {
         console.error("Error while logging out:", error);
         return res.status(500).json({ message: "Error while logging out" });
     }
-};
-
-
+}
 
 export const getCurrentUser = async (req, res) => {
     try {
@@ -119,8 +117,22 @@ export const getCurrentUser = async (req, res) => {
     }
 };
 
-
-
+export const updateProfile = async (req, res) => {
+    const id = req.query.id
+    try {
+        const updatedChannel = await User.findByIdAndUpdate(
+            id,
+             req.body,
+            { new: true }
+        );
+        if (!updatedChannel) {
+            return res.status(404).json({ message: "Channel not found" });
+        }
+        res.status(200).json(updatedChannel);
+    } catch (error) {
+        res.status(500).json({ message: error?.message });
+    }
+};
 
 
 

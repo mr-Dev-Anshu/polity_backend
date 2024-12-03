@@ -5,6 +5,9 @@ const schema = mongoose.Schema({
         type: String,
         required: true,
     },
+    profileImage:{
+         type:String  
+    } , 
     lastName: {
         type: String,
         required: true
@@ -31,7 +34,12 @@ const schema = mongoose.Schema({
     hasBlueBadge:{
          type:Boolean, 
          default:false 
-    }
+    }, 
+    gender:{
+         type:String 
+    }, 
+    
+
 }, { timestamps: true })
 
  const User = mongoose.model('User' , schema) ; 
