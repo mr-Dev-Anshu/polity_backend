@@ -224,15 +224,32 @@ export const updateProfile = async (req, res) => {
     }
 };
 
-export const verifyUser = async(req ,res ) => {
-       try {
-         const id = req.query.id ; 
-          const updated = await User.findByIdAndUpdate(id , {isVerified:true} , {new:true} )
-          res.status(200).json("User Verified successfully")
-       } catch (error) {
-         res.status(500).json(error?.message || "Something went wrong while verifying the user")
-       }
-}
+export const verifyUser = async (req, res) => {
+    try {
+        const id = req.query.id;
+
+        const user = await User.findById(id);
+
+        if (!user) {
+            return res.status(404).json("User not found");
+        }
+
+        if (user.isVerified) {
+            return res.status(200).json("User is already verified");
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            { isVerified: true },
+            { new: true }
+        );
+
+        res.status(200).json("User Verified successfully");
+    } catch (error) {
+        res.status(500).json(error?.message || "Something went wrong while verifying the user");
+    }
+};
+
 
 
 
