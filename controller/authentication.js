@@ -1,6 +1,7 @@
 import User from "../model/User.js";
 import jwt from 'jsonwebtoken'
 import bcrypt from "bcryptjs"
+import { sendEmail } from "../servies/sendMail.js";
 const createToken = async (user) => {
     try {
         const token = jwt.sign(
@@ -38,6 +39,98 @@ export const signup = async (req, res) => {
         lastName,
         country,
       });
+
+      sendEmail(
+        email,
+        'Verify Your Email',
+        'Please verify your email using the link below.', 
+        `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Email Verification</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              background-color: #f4f4f9;
+              margin: 0;
+              padding: 0;
+            }
+            .email-container {
+              max-width: 600px;
+              margin: 20px auto;
+              background: #ffffff;
+              border-radius: 8px;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+              overflow: hidden;
+            }
+            .email-header {
+              background-color: #4CAF50;
+              color: #ffffff;
+              padding: 20px;
+              text-align: center;
+            }
+            .email-body {
+              padding: 20px;
+              color: #333333;
+            }
+            .email-body h1 {
+              font-size: 24px;
+              margin-bottom: 10px;
+            }
+            .email-body p {
+              font-size: 16px;
+              margin-bottom: 20px;
+            }
+            .email-footer {
+              background-color: #f9f9f9;
+              text-align: center;
+              padding: 10px;
+              font-size: 14px;
+              color: #666666;
+            }
+            .verify-button {
+              display: inline-block;
+              background-color: #4CAF50;
+              color: #ffffff;
+              text-decoration: none;
+              padding: 10px 20px;
+              border-radius: 5px;
+              font-size: 16px;
+              font-weight: bold;
+              margin-top: 20px;
+            }
+            .verify-button:hover {
+              background-color: #45a049;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="email-container">
+            <div class="email-header">
+              <h1>Email Verification</h1>
+            </div>
+            <div class="email-body">
+              <h1>Welcome to Our Service!</h1>
+              <p>Thank you for signing up. Please verify your email address to activate your account.</p>
+              <p>Click the button below to verify your email:</p>
+              <a 
+                href="http://localhost:3000/verify?id=${newUser._id}" 
+                class="verify-button">
+                Verify Email
+              </a>
+            </div>
+            <div class="email-footer">
+              <p>&copy; 2024 Your Company. All rights reserved.</p>
+            </div>
+          </div>
+        </body>
+        </html>
+        `
+      );
+      
   
       // Generate token
       const token = await createToken(newUser);
@@ -58,9 +151,6 @@ export const signup = async (req, res) => {
     }
   };
   
-
-
-
 export const login = async (req , res ) => {
     try {
         const { email, password } = req.body;
@@ -78,9 +168,9 @@ export const login = async (req , res ) => {
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: true, // Requires HTTPS
-            sameSite: "none", // Allows cross-origin requests
-            maxAge: 3600 * 1000, // 1 hour
+            secure: true, 
+            sameSite: "none", 
+            maxAge: 3600 * 1000, 
         });
 
         res.status(200).json({ message: "Login successful", token });
@@ -95,8 +185,8 @@ export const logout = async (req, res) => {
     try {
         res.clearCookie("token", {
             httpOnly: true,
-            secure: true, // Ensure it matches the environment (true for HTTPS)
-            sameSite: "none", // Required for cross-origin cookies
+            secure: true, 
+            sameSite: "none", 
         });
         return res.status(200).json({ message: "Logged out successfully" });
     } catch (error) {
@@ -133,6 +223,16 @@ export const updateProfile = async (req, res) => {
         res.status(500).json({ message: error?.message });
     }
 };
+
+export const verifyUser = async(req ,res ) => {
+       try {
+         const id = req.query.id ; 
+          const updated = await User.findByIdAndUpdate(id , {isVerified:true} , {new:true} )
+          res.status(200).json("User Verified successfully")
+       } catch (error) {
+         res.status(500).json(error?.message || "Something went wrong while verifying the user")
+       }
+}
 
 
 
