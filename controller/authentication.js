@@ -117,7 +117,7 @@ export const signup = async (req, res) => {
               <p>Thank you for signing up. Please verify your email address to activate your account.</p>
               <p>Click the button below to verify your email:</p>
               <a 
-                href="http://localhost:3000/verify?id=${newUser._id}" 
+                href="https://master.dw8kmiy5kau5k.amplifyapp.com/verify?id=${newUser._id}" 
                 class="verify-button">
                 Verify Email
               </a>
