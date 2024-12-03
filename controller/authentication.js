@@ -91,19 +91,20 @@ export const login = async (req , res ) => {
 }
 
 
-export const logout = async (req , res ) => {
+export const logout = async (req, res) => {
     try {
-        res.cookie("token", token, {
+        res.clearCookie("token", {
             httpOnly: true,
-            secure: true, // Requires HTTPS
-            sameSite: "none", // Allows cross-origin requests
-            maxAge: 3600 * 1000, // 1 hour
+            secure: true, // Ensure it matches the environment (true for HTTPS)
+            sameSite: "none", // Required for cross-origin cookies
         });
         return res.status(200).json({ message: "Logged out successfully" });
     } catch (error) {
-        return res.status(500).json("Error while log out ", error)
+        console.error("Error while logging out:", error);
+        return res.status(500).json({ message: "Error while logging out" });
     }
-}
+};
+
 
 
 export const getCurrentUser = async (req, res) => {
