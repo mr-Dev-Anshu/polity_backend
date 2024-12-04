@@ -11,8 +11,8 @@ export const verifyToken = async (req, res, next) => {
           if(!user.isVerified){
              return res.status(400).json("Please Verify your Email")
           }
-          console.log(user) ; 
-        req.user = decoded;
+          console.log(user);
+        req.user = user;
         console.log( "this is user from the verify Token " ,  req.user)
         next();
     } catch (error) {

@@ -25,6 +25,7 @@ export const signup = async (req, res) => {
   
       const existingUser = await User.findOne({ email });
       if (existingUser) {
+        console.log(existingUser)
         return res.status(400).json({ message: "User already exists" });
       }
   
@@ -130,8 +131,6 @@ export const signup = async (req, res) => {
         </html>
         `
       );
-      
-  
       // Generate token
       const token = await createToken(newUser);
       console.log(token);
@@ -147,7 +146,7 @@ export const signup = async (req, res) => {
       return res.status(201).json({ message: "User created successfully", token });
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ message: "Error while signing up", error });
+      return res.status(500).json({ message: error.message });
     }
   };
   
@@ -156,7 +155,7 @@ export const login = async (req , res ) => {
         const { email, password } = req.body;
         const existingUser = await User.findOne({ email });
 
-         if(!existingUser.isVerified){
+         if( existingUser &&  !existingUser.isVerified){
             sendEmail(
                 email,
                 'Verify Your Email',
@@ -294,6 +293,7 @@ export const getCurrentUser = async (req, res) => {
         if (!req.user) {
             return res.status(401).json({ message: "Unauthorized" });
         }
+        console.log(req.user)
         return res.status(200).json(req.user);
     } catch (error) {
         console.log("Error while getting the current user:", error);
@@ -337,7 +337,6 @@ export const verifyUser = async (req, res) => {
             { isVerified: true },
             { new: true }
         );
-
         res.status(200).json("User Verified successfully");
     } catch (error) {
         res.status(500).json(error?.message || "Something went wrong while verifying the user");

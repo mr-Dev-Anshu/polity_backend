@@ -38,8 +38,9 @@ const schema = mongoose.Schema({
     gender:{
          type:String 
     }, 
-    
-
+    location:{
+         type:String 
+    }
 }, { timestamps: true })
 
  const User = mongoose.model('User' , schema) ; 
