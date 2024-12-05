@@ -37,7 +37,7 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reels', reelsRouter);
 app.use('/api/v1/follow', followRouter);
 app.use('/api/v1/report', reportRouter);
-app.use('/api/v1/channel' , channelRouter)
+app.use('/api/v1/channels' , channelRouter)
 // sendEmail(
 //   'anshur9608837@gmail.com',
 //   'Test Email Subject',
