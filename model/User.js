@@ -38,10 +38,6 @@ const schema = mongoose.Schema({
     gender:{
          type:String 
     }, 
-
-    
-
-
     location:{
          type:String 
     }
