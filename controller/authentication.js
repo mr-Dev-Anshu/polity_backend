@@ -143,7 +143,7 @@ export const signup = async (req, res) => {
         maxAge: 3600 * 1000, // 1 hour
     });
   
-      return res.status(201).json({ message: "User created successfully", token });
+      return res.status(201).json(newUser);
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: error.message });
