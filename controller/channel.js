@@ -27,7 +27,7 @@ export const getChannels = async (req, res) => {
 export const getChannelByEmail = async (req, res) => {
     const email = req.query.email
     try {
-        const channel = await Channel.findById(email);
+        const channel = await Channel.findOne(email);
         if (!channel) {
             return res.status(404).json({ message: "Channel not found" });
         }

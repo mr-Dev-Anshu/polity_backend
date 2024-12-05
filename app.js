@@ -7,10 +7,8 @@ import reelsRouter from './router/reels.js';
 import followRouter from './router/follow.js';
 import reportRouter from './router/report.js';
 import channelRouter from './router/channel.js'
-<<<<<<< HEAD
-=======
+
 import { sendEmail } from './servies/sendMail.js';
->>>>>>> b725a590bdfd8d4be7de382c9bae660f828eeeab
 const app = express();
 app.use(cors({ origin: ['http://localhost:3000', 'https://master.dw8kmiy5kau5k.amplifyapp.com'], credentials: true }));
 app.use(express.json());
@@ -40,10 +38,7 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reels', reelsRouter);
 app.use('/api/v1/follow', followRouter);
 app.use('/api/v1/report', reportRouter);
-<<<<<<< HEAD
-app.use('/api/v1/channel' , channelRouter)
-export { app };
-=======
+
 app.use('/api/v1/channels' , channelRouter)
 // sendEmail(
 //   'anshur9608837@gmail.com',
@@ -52,4 +47,3 @@ app.use('/api/v1/channels' , channelRouter)
 //   '<h1>This is the HTML body of the email.</h1>'
 // );
 export { app };
->>>>>>> b725a590bdfd8d4be7de382c9bae660f828eeeab
