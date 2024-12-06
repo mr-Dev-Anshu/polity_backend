@@ -15,7 +15,7 @@ export const createReel = async (req, res) => {
     });
 
     await reel.save();
-    res.status(201).json({ message: "Reel created successfully", reel });
+    res.status(201).json( reel);
   } catch (error) {
     res.status(500).json({ message: "Error creating reel", error: error.message });
   }
@@ -60,9 +60,9 @@ export const updateReelById = async (req, res) => {
 export const getAllReels = async (req, res) => {
   try {
     const reels = await Reels.find({isDown:false});
-    res.status(200).json({ message: "Reels retrieved successfully", reels });
+    res.status(200).json(reels);
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving reels", error: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -76,8 +76,8 @@ export const getReelsByUserId = async (req, res) => {
     if (!reels.length) {
       return res.status(404).json({ message: "No reels found for this user" });
     }
-    res.status(200).json({ message: "Reels retrieved successfully", reels });
+    res.status(200).json(reels);
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving reels", error: error.message });
+    res.status(500).json({ message:error.message });
   }
 };
