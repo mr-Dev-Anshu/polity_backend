@@ -2,7 +2,11 @@ import Channel from "../model/channel.js";
 
 export const createChannel = async (req, res) => {
     try {
-        const existingChannel = await Channel.findOne({ email });
+
+        if(!req.body.email){
+             return res.status(400).json("Please provide the email")
+        }
+        const existingChannel = await Channel.findOne({ email:req.body.email });
         if (existingChannel) {
             return res.status(400).json({ message: "A channel with this email already exists." });
         }
@@ -27,7 +31,7 @@ export const getChannels = async (req, res) => {
 export const getChannelByEmail = async (req, res) => {
     const email = req.query.email
     try {
-        const channel = await Channel.findOne(email);
+        const channel = await Channel.findOne({email});
         if (!channel) {
             return res.status(404).json({ message: "Channel not found" });
         }
@@ -40,7 +44,10 @@ export const getChannelByEmail = async (req, res) => {
 export const updateChannel = async (req, res) => {
     const id = req.query.id
     try {
-        const existingChannel = await Channel.findOne({ email });
+        if(!req.body.email){
+            return res.status(400).json("Please provide the email")
+       }
+       const existingChannel = await Channel.findOne({ email:req.body.email });
         if (existingChannel && existingChannel._id.toString() !== id) {
             return res.status(400).json({ message: "A channel with this email already exists." });
         }
