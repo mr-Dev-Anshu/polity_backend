@@ -4,7 +4,7 @@ import Reels from "../model/Reels.js";
 export const createReel = async (req, res) => {
   try {
     const { video, title, description, thumbnail, userId } = req.body;
-
+    console.log(userId) ; 
     // Create a new reel
     const reel = new Reels({
       video,
@@ -59,20 +59,32 @@ export const updateReelById = async (req, res) => {
 // Get all reels
 export const getAllReels = async (req, res) => {
   try {
-    const reels = await Reels.find({isDown:false});
+     const reels = await Reels.aggregate([
+        {$match:{isDown:false}},
+        {
+          $lookup:{
+             from:"users",
+             localField:"userId",
+             foreignField:"_id",
+             as:"user"
+        }
+      },
+      {$unwind:"$user"},
+      {$project:{
+        'user.password':0,
+        'user._id':0
+      }}
+     ])
     res.status(200).json(reels);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Get reels by user ID
 export const getReelsByUserId = async (req, res) => {
   try {
     const userId = req.query.userId;
-    // Find reels by user ID
     const reels = await Reels.find({ userId , isDown:false  });
-
     if (!reels.length) {
       return res.status(404).json({ message: "No reels found for this user" });
     }
@@ -81,3 +93,5 @@ export const getReelsByUserId = async (req, res) => {
     res.status(500).json({ message:error.message });
   }
 };
+
+

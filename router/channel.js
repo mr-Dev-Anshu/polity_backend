@@ -7,6 +7,4 @@ router.route('/create').post(createChannel) ;
 router.route('/getByEmail').get(getChannelByEmail) ; 
 router.route('/get').get(getChannels) ; 
 router.route('/update').put(updateChannel) ; 
-
-
-export default router 
+export default router ; 

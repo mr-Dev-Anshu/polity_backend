@@ -30,6 +30,7 @@ export const getChannels = async (req, res) => {
 
 export const getChannelByEmail = async (req, res) => {
     const email = req.query.email
+    console.log(email) ; 
     try {
         const channel = await Channel.findOne({email});
         if (!channel) {

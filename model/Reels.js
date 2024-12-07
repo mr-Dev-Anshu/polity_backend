@@ -10,7 +10,6 @@ const  schema = mongoose.Schema({
          type:String , 
          required:true  
      }, 
-
      description:{
          type:String , 
          required:true 
@@ -21,7 +20,8 @@ const  schema = mongoose.Schema({
      }, 
      userId:{
          type:mongoose.Schema.Types.ObjectId , 
-         ref: 'User'
+         ref: 'User',
+         required:true
      }, 
      isDown:{
          type:Boolean , 
