@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Reels from "../model/Reels.js";
 
 // Create a new reel
@@ -84,7 +85,21 @@ export const getAllReels = async (req, res) => {
 export const getReelsByUserId = async (req, res) => {
   try {
     const userId = req.query.userId;
-    const reels = await Reels.find({ userId , isDown:false  });
+    const reels = await Reels.aggregate([
+      {$match:{isDown:false , userId: new mongoose.Types.ObjectId(userId) }}, 
+      {
+        $lookup:{
+           from:"users",
+           localField:"userId",
+           foreignField:"_id",
+           as:"user"
+      }
+    },
+    {$unwind:"$user"},
+    {$project:{
+      'user.password':0,
+    }}
+   ])
     if (!reels.length) {
       return res.status(404).json({ message: "No reels found for this user" });
     }
