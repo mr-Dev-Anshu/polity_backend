@@ -3,11 +3,19 @@ import Report from "../model/Report.js";
 
 export const createReport = async (req, res) => {
     try {
+          const {reelId , reporterId } = req.body 
+        if(!reelId || !reporterId ) {
+              return res.status(400).json({message:"Payload is required"})
+        }
+         const check = await Report.findOne({reelId , reporterId}) ; 
+         if(check){
+              return res.status(400).json({message:"Already Reported"})
+         }
         const newReport = new Report(req.body);
         await newReport.save();
         res.status(201).json(newReport);
     } catch (error) {
-        res.status(500).json("Error while creating the Report ")
+        res.status(500).json({message:error.message || "Error while creating the Report"})
     }
 }
 
@@ -17,7 +25,7 @@ export const deleteReport = async (req, res) => {
         const deleted = await Report.findByIdAndDelete(id);
         res.status(200).json("Report Deleted Successfully")
     } catch (error) {
-        res.status(500).json("Error while deleting the Report")
+        res.status(500).json({message:error.message || "Error while deleting the Report"})
     }
 }
 
@@ -37,7 +45,7 @@ export const getReportedVideoByUser = async (req, res) => {
         ])
         res.status(200).json(data);
     } catch (error) {
-        res.status(500).json("Error while getting the reporter")
+        res.status(500).json({message:error.message || "Error while getting  the Report"})
     }
 }
 
@@ -58,7 +66,7 @@ export const getReportedVideoCreator = async (req, res) => {
         ])
         res.status(200).json(data);
     } catch (error) {
-        res.status(500).json("Error while getting the reporter")
+        res.status(500).json({message:error.message || "Error while getting  the Report"})
     }
 }
 
