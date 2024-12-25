@@ -21,7 +21,6 @@ const schema = mongoose.Schema({
     },
     country: {
         type: String,
-        required: true
     }, 
     isVerified:{
          type:Boolean, 
