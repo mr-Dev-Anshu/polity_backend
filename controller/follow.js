@@ -69,3 +69,25 @@ export const getFollowCountByUserId = async (req, res) => {
     res.status(500).json({ message: "Error fetching follow count.", error });
   }
 };
+
+// Check if the user has followed the creator
+export const isFollowed = async (req, res) => {
+  try {
+    const { creatorId, userId } = req.query;
+
+    if (!creatorId || !userId) {
+      return res.status(400).json({ message: "CreatorId and UserId are required." });
+    }
+
+    // Check if the follow relationship exists
+    const follow = await Follow.findOne({ creatorId, userId });
+
+    if (follow) {
+      return res.status(200).json({ isFollowed: true });
+    } else {
+      return res.status(200).json({ isFollowed: false });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error checking follow status.", error });
+  }
+};
