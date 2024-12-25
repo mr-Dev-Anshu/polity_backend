@@ -73,7 +73,7 @@ export const getFollowCountByUserId = async (req, res) => {
 // Check if the user has followed the creator
 export const isFollowed = async (req, res) => {
   try {
-    const { creatorId, userId } = req.query;
+    const { creatorId, userId } = req.body;
 
     if (!creatorId || !userId) {
       return res.status(400).json({ message: "CreatorId and UserId are required." });
