@@ -27,7 +27,11 @@ const  schema = mongoose.Schema({
          type:Boolean , 
          default:false 
      }
-}) ; 
+} ,
+
+ {timestamps:true}
+
+) ; 
 
 const Reels = mongoose.model('Reels' , schema) ; 
 export default Reels ; 
