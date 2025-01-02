@@ -47,11 +47,9 @@ export const deleteFollow = async (req, res) => {
   try {
     const id  = req.query.id;
     const follow = await Follow.findByIdAndDelete(id);
-
     if (!follow) {
       return res.status(404).json({ message: "Follow not found." });
     }
-
     res.status(200).json({ message: "Follow deleted successfully.", follow });
   } catch (error) {
     res.status(500).json({ message: "Error deleting follow.", error });

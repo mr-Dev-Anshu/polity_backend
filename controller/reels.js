@@ -55,7 +55,6 @@ export const updateReelById = async (req, res) => {
   }
 };
 
-
 export const getAllReels = async (req, res) => {
   try {
     const userId = req.query.userId;
@@ -73,25 +72,13 @@ export const getAllReels = async (req, res) => {
       { $unwind: "$user" },
       {
         $project: {
-          "user.password": 0,
+          "user.password": 0, // Exclude the password field
         }
-      }
+      },
+      { $sort: { createdAt: -1 } } // Correct field name
     ]);
 
-    // const filteredReels = await Promise.all(
-    //   reels.map(async (reel) => {
-    //     const isReported = await Report.findOne({ creatorId: reel.user._id, reporterId: userId , reelId:reel._id  });
-    //     console.log(isReported); // Log each isReported check
-    //     return { reel, isReported }; // Return the reel along with the isReported flag
-    //   })
-    // );
-    
-    // // Filter the reels synchronously based on the isReported flag
-    // reels = filteredReels.filter(item => !item.isReported).map(item => item.reel);
-    
-    // console.log("here in the last"); // This will now execute after filtering
     res.status(200).json(reels);
-    
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
