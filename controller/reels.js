@@ -7,7 +7,6 @@ export const createReel = async (req, res) => {
   try {
     const { video, title, description, thumbnail, userId } = req.body;
     console.log(userId);
-    // Create a new reel
     const reel = new Reels({
       video,
       title,
@@ -23,7 +22,6 @@ export const createReel = async (req, res) => {
   }
 };
 
-// Delete a reel by ID
 export const deleteReelById = async (req, res) => {
   try {
     const id = req.query.id;

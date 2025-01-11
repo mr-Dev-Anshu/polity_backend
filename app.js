@@ -10,7 +10,7 @@ import channelRouter from './router/channel.js'
 
 import { sendEmail } from './servies/sendMail.js';
 const app = express();
-app.use(cors({ origin: ['http://localhost:3000', 'https://master.dw8kmiy5kau5k.amplifyapp.com'], credentials: true }));
+app.use(cors({ origin: ['http://localhost:3000', 'https://master.dw8kmiy5kau5k.amplifyapp.com' , 'https://master.d203wypx8gnf3n.amplifyapp.com'], credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 dotenv.config({
@@ -47,3 +47,6 @@ app.use('/api/v1/channels' , channelRouter)
 //   '<h1>This is the HTML body of the email.</h1>'
 // );
 export { app };
+
+
+
