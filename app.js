@@ -7,8 +7,8 @@ import reelsRouter from './router/reels.js';
 import followRouter from './router/follow.js';
 import reportRouter from './router/report.js';
 import channelRouter from './router/channel.js'
+import { putObject } from './controller/upload.js';
 
-import { sendEmail } from './servies/sendMail.js';
 const app = express();
 app.use(cors({ origin: ['http://localhost:3000', 'https://master.dw8kmiy5kau5k.amplifyapp.com' , 'https://master.d203wypx8gnf3n.amplifyapp.com'], credentials: true }));
 app.use(express.json());
@@ -38,8 +38,8 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reels', reelsRouter);
 app.use('/api/v1/follow', followRouter);
 app.use('/api/v1/report', reportRouter);
-
-app.use('/api/v1/channels' , channelRouter)
+app.post("/api/putObject", putObject);
+app.use('/api/v1/channels' , channelRouter);
 // sendEmail(
 //   'anshur9608837@gmail.com',
 //   'Test Email Subject',
