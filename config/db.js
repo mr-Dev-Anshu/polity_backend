@@ -1,4 +1,9 @@
 import mongoose from "mongoose";
+import dotenv from 'dotenv'
+
+dotenv.config() ; 
+
+console.log('this is mongo-uri' , process.env.MONGO_URI) ; 
 
 export const dbConnection = async () => {
     try {
