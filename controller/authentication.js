@@ -30,7 +30,7 @@ export const signup = async (req, res) => {
   
       // Hash the password
       const hashedPassword = await bcrypt.hash(password, 12);
-  
+      
       // Create new user
       const newUser = await User.create({
         email,
@@ -38,8 +38,8 @@ export const signup = async (req, res) => {
         firstName,
         lastName,
       });  
-
-      await  sendEmail(email , newUser) ; 
+      
+      const isMailSend =  await  sendEmail(email , newUser) ; 
       // Generate token
       const token = await createToken(newUser);
       console.log(token);

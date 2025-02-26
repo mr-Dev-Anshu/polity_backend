@@ -102,8 +102,9 @@ export const sendEmail = async ( email , newUser) => {
             htmlContent
         };
         const response = await brevo.sendTransacEmail(emailData);
+        return true ; 
     } catch (error) {
         console.log("Error sending email:", error);
-        res.status(500).json({ message: "Failed to send email.", error: error.message });
+        return false 
     }
 };
